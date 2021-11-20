@@ -1,0 +1,307 @@
+/* using border-box model -- see https://frontendmasters.github.io/bootcamp/layout#box-model-types for explanation */
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+/* turn off margin/padding, set font and size for the page */
+body {
+    font-family: "Quicksand", sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 1.5rem;
+    background-color: #fafafe;
+}
+
+.home {
+    max-width: 1920px;
+    min-height: 100vh;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+}
+
+/*=======================NAV BAR=============================================*/
+#my-nav {
+    min-width: 68px;
+    max-height: 660px;
+    background-color: #ffffff;
+    max-width: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    padding-top: 16px;
+    position: sticky;
+    top: 0;
+}
+
+#logo {
+    height: 40px;
+    width: 40px;
+    object-fit: contain;
+    align-self: center;
+}
+
+.nav-icons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 180px;
+}
+
+.nav-icons img {
+    align-self: center;
+}
+
+#account {
+    height: 50px;
+    width: 50px;
+    object-fit: contain;
+    align-self: center;
+}
+
+/*=======================NAV BAR=============================================*/
+
+/*=============================MAIN CONTENT=====================*/
+#main-content {
+    flex-basis: 70%;
+    min-height: 100vh;
+    background-color: #fafafe;
+    padding: 16px 45px;
+}
+
+#main-header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+#main-header p {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    margin: 0;
+    line-height: 32px;
+    color: #000000;
+    flex-basis: 54%;
+}
+
+.input-wrapper {
+    display: inline-block;
+    position: relative;
+    flex-basis: 39%;
+    background: #ffffff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    border-radius: 12px;
+    height: 50px;
+    max-width: 275px;
+}
+
+.input-wrapper:after {
+    content: url("../images/search.svg");
+    position: absolute;
+    left: 16px;
+    top: 14px;
+}
+
+#search {
+    padding-left: 48px;
+    border: none;
+    outline: none;
+    height: 100%;
+    color: #000000;
+    background-color: #ffffff;
+}
+
+#main-header span {
+    color: #f9a109;
+}
+
+#products {
+    padding-top: 32px;
+}
+
+.product-category {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 20px 16px;
+    align-items: flex-start;
+}
+
+.product-item {
+    width: 183px;
+    min-height: 43px;
+    background: #ffffff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-item img {
+    float: right;
+    size: 20px !important;
+    align-self: center;
+    padding-right: 10px;
+}
+
+.product-item p {
+    display: inline-block;
+    padding: 10px;
+    margin: 0;
+    width: 70%;
+    align-self: center;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #000000;
+}
+
+/*=============================MAIN CONTENT=====================*/
+/*=================================DETAILS PANE=================================*/
+#details-pane {
+    min-width: 380px;
+    min-height: 660px;
+    max-height: 680px;
+    position: sticky;
+    top: 0;
+    background-color: #fafafe;
+    max-width: 380px;
+    padding-bottom: 16px;
+    padding-top: 16px;
+}
+
+#details-pane div {
+    width: 93%;
+    margin: 0 auto;
+}
+
+.new-item-header {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 30px;
+    color: #000000;
+    margin: 0;
+}
+
+input {
+    display: block;
+    border: 2px solid #bdbdbd;
+    box-sizing: border-box;
+    border-radius: 12px;
+    height: 60px;
+    width: 100%;
+    background-color: #fafafe;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    padding-left: 8px;
+    color: #000000;
+    outline: none;
+}
+
+label {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #34333a;
+    padding-bottom: 20px;
+}
+
+#description {
+    min-height: 100px;
+    max-height: 100px;
+    min-width: 100%;
+    max-width: 100%;
+    border: 2px solid #bdbdbd;
+    box-sizing: border-box;
+    border-radius: 12px;
+    background-color: #fafafe;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    padding-left: 8px;
+    color: #000000;
+    outline: none;
+}
+
+#custom-file-input::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+#custom-file-input::before {
+    content: "Pick image";
+    display: inline-block;
+    background: linear-gradient(top, #f9f9f9, #e3e3e3);
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 10pt;
+}
+
+#custom-file-input:hover::before {
+    border-color: black;
+}
+
+#custom-file-input:active::before {
+    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+
+#div-button {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding-top: 43px;
+}
+
+#div-button button {
+    height: 50px;
+    width: 70px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 16px;
+}
+
+#cancel {
+    background: none;
+    color: #34333a;
+    outline: none;
+    border: none;
+}
+
+#save {
+    background: #f9a109;
+    border-radius: 12px;
+    color: white;
+    outline: none;
+    border: none;
+}
+
+/*=================================DETAILS PANE=================================*/
