@@ -11,18 +11,44 @@ import {
 
 import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
 import { AuthTokenContext } from "../../App";
+import { useForm } from "react-hook-form";
+// @ts-ignore
+import { zodResolver } from "@hookform/resolvers/zod";
+import { number, object, string, TypeOf } from "zod";
+import { NewProduct, postNewItem } from "../../API";
 
 type Props = {};
+
+const createNewItemInputSchema = object({
+  name: string().nonempty({
+    message: "name is required",
+  }),
+  description: string().nonempty({
+    message: "description is required",
+  }),
+  category: string().nonempty({
+    message: "category is required",
+  }),
+  price: string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
+    message: "Expected number, received a string",
+  }),
+  quantity: string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
+    message: "Expected number, received a string",
+  }),
+});
+type CreateNewItemInput = TypeOf<typeof createNewItemInputSchema>;
 
 function AddItem(props: Props) {
   const [toggle, setToggle] = useState(false);
   const [file, setFile] = useState<File>();
   const context = useContext(AuthTokenContext);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<CreateNewItemInput>({
+    resolver: zodResolver(createNewItemInputSchema),
+  });
 
   const selectCategory = (
     <SelectTag>
@@ -40,44 +66,70 @@ function AddItem(props: Props) {
         await uploadBytes(storageRef, file);
         const imageUrl = await getDownloadURL(ref(getStorage(), file.name));
         console.log(imageUrl);
+        return imageUrl;
       } catch (e: any) {
         console.log(e.message);
+        return "";
       }
     }
   };
 
+  const onSubmit = async (input: CreateNewItemInput) => {
+    try {
+      const imageUrl = await uploadImage();
+      const data: NewProduct = {
+        name: input.name,
+        description: input.description,
+        price: Number(input.price),
+        quantity: Number(input.quantity),
+        category: input.category,
+        imageUrl,
+      };
+      await postNewItem(data, context.tokenState.token);
+    } catch (e: any) {
+      console.log(e.message);
+    }
+  };
+
   const buttonText = !toggle ? "new" : "select";
-  console.log(context.tokenState.token);
+  console.log(errors);
   return (
     <Wrapper>
       <Content>
         <Text>Add a new Item</Text>
         <label>
           Name
-          <input type="text" placeholder={"Enter Name"} />
+          <input type="text" placeholder={"Enter Name"} {...register("name")} />
         </label>
         <label>Category</label>
         <CategoryWrapper>
           {!toggle ? (
             selectCategory
           ) : (
-            <input type="text" placeholder={"Enter Category"} />
+            <input
+              type="text"
+              placeholder={"Enter Category"}
+              {...register("category")}
+            />
           )}
           <button onClick={() => setToggle(!toggle)}>{buttonText}</button>
         </CategoryWrapper>
         <PriceSection>
           <label>
             Price(Kshs.)
-            <input type="number" />
+            <input type="number" {...register("price")} />
           </label>
           <label>
             Quantity
-            <input type="number" />
+            <input type="number" {...register("quantity")} />
           </label>
         </PriceSection>
         <label>
           Description
-          <textarea placeholder={"Enter a description"} />
+          <textarea
+            placeholder={"Enter a description"}
+            {...register("description")}
+          />
         </label>
         <label>
           Image
@@ -91,7 +143,7 @@ function AddItem(props: Props) {
       </Content>
       <div id="div-button">
         <button id="cancel">cancel</button>
-        <button id="save" onClick={uploadImage}>
+        <button id="save" onClick={handleSubmit(onSubmit)}>
           Save
         </button>
       </div>

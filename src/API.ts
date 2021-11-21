@@ -2,7 +2,7 @@ import axios from "axios";
 
 export type NewProduct = {
   name: string;
-  imageUrl: string;
+  imageUrl?: string;
   price: number;
   description: string;
   category: string;
@@ -11,7 +11,7 @@ export type NewProduct = {
 export const newItemEndpoint =
   process.env.REACT_APP_SERVER_URL + "/api/product";
 
-export const addNewItem = async (item: NewProduct, token: string) => {
+export const postNewItem = async (item: NewProduct, token: string) => {
   await axios.post(newItemEndpoint, item, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials: true,
