@@ -1,9 +1,30 @@
 import * as React from "react";
-import { Content, Text, Wrapper, PriceSection } from "./AddItem.styles";
+import { useState } from "react";
+import {
+  Content,
+  PriceSection,
+  SelectTag,
+  Text,
+  Wrapper,
+  CategoryWrapper,
+} from "./AddItem.styles";
 
 type Props = {};
 
 function AddItem(props: Props) {
+  const [toggle, setToggle] = useState(false);
+
+  const selectCategory = (
+    <SelectTag>
+      <option value="rigatoni">Rigatoni</option>
+      <option value="dave">Dave</option>
+      <option value="pumpernickel">Pumpernickel</option>
+      <option value="reeses">Reeses</option>
+    </SelectTag>
+  );
+
+  const buttonText = !toggle ? "new" : "select";
+
   return (
     <Wrapper>
       <Content>
@@ -12,10 +33,15 @@ function AddItem(props: Props) {
           Name
           <input type="text" placeholder={"Enter Name"} />
         </label>
-        <label>
-          Category
-          <input type="text" placeholder={"Enter Category"} />
-        </label>
+        <label>Category</label>
+        <CategoryWrapper>
+          {!toggle ? (
+            selectCategory
+          ) : (
+            <input type="text" placeholder={"Enter Category"} />
+          )}
+          <button onClick={() => setToggle(!toggle)}>{buttonText}</button>
+        </CategoryWrapper>
         <PriceSection>
           <label>
             Price(Kshs.)

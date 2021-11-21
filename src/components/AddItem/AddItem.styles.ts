@@ -135,3 +135,68 @@ export const PriceSection = styled.div`
   width: 100%;
   padding-top: 6px;
 `;
+
+export const CategoryWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 50px;
+
+  button {
+    flex-basis: 25%;
+    color: #34333a;
+    outline: none;
+    border-radius: 12px;
+    border-color: #fafafe;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 16px;
+  }
+
+  input {
+    display: block;
+    border: 2px solid #bdbdbd;
+    box-sizing: border-box;
+    border-radius: 12px;
+    height: 50px;
+    width: 100%;
+    background-color: #fafafe;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    padding-left: 8px;
+    color: #000000;
+    outline: none;
+`;
+
+export const SelectTag = styled.select`
+  flex-basis: 65%;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  padding-left: 8px;
+  color: #000000;
+  outline: none;
+  border: 2px solid #bdbdbd;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background-color: inherit;
+
+  option {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    padding-left: 8px;
+    color: #000000;
+    outline: none;
+  }
+
+  option:hover {
+    background: orange;
+  }
+`;
