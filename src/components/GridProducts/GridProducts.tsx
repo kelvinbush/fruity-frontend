@@ -10,17 +10,11 @@ type Props = {
     products: Product[]
 };
 
-type CustomProduct = {
-    name: string
-    id: number
-    items: Product[]
-}
 
 const GridProducts: React.FC<Props> = ({products}) => {
     const context = useContext(AuthTokenContext);
-    const categories = products.map(product => (product.category.name));
-    const mCategory = new Set(categories);
-    let data = Array.from(mCategory)
+    let data = context.tokenState.category
+    // context.tokenDispatch({type: AuthState.SET_CATEGORIES, payload: data});
     return (
         <Wrapper>
             {data.map(category => {

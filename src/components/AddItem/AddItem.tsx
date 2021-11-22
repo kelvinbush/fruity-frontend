@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {
     Content,
     PriceSection,
@@ -42,6 +42,31 @@ function AddItem(props: Props) {
     const [toggle, setToggle] = useState(false);
     const [file, setFile] = useState<File>();
     const context = useContext(AuthTokenContext);
+    let product = context.tokenState.product;
+    let defaultField;
+    if (product.name !== undefined) {
+        defaultField = {
+            name: product.name,
+            description: product.description,
+            price: product.price.toString(),
+            category: product.category,
+            quantity: product.quantity.toString()
+        }
+    } else {
+        defaultField = {
+            name: "",
+            description: "",
+            price: "",
+            category: "",
+            quantity: "",
+        }
+    }
+    useEffect(() => {
+        if (product.name !== undefined) {
+            setToggle(true);
+        }
+    }, [])
+
     const {
         register,
         formState: {errors},
@@ -49,14 +74,14 @@ function AddItem(props: Props) {
         handleSubmit,
     } = useForm<CreateNewItemInput>({
         resolver: zodResolver(createNewItemInputSchema),
+        defaultValues: defaultField
     });
+    const categories = context.tokenState.category
 
     const selectCategory = (
         <SelectTag>
-            <option value="rigatoni">Rigatoni</option>
-            <option value="dave">Dave</option>
-            <option value="pumpernickel">Pumpernickel</option>
-            <option value="reeses">Reeses</option>
+            {categories.map(category => (
+                <option key={category} value={category} {...register("category")}>{`${category}`}</option>))}
         </SelectTag>
     );
 
@@ -87,7 +112,6 @@ function AddItem(props: Props) {
                 imageUrl,
             };
             await postNewItem(data, context.tokenState.token);
-            reset({name: "", description: "", quantity: "", category: "", price: ""});
         } catch (e: any) {
             console.log(e.message);
         }
@@ -100,7 +124,7 @@ function AddItem(props: Props) {
                 <Text>Add a new Item</Text>
                 <label>
                     Name
-                    <input type="text" placeholder={"Enter Name"} {...register("name")} />
+                    <input type="text" placeholder={"Enter Name"}  {...register("name")} />
                 </label>
                 <label>Category</label>
                 <CategoryWrapper>
@@ -118,7 +142,7 @@ function AddItem(props: Props) {
                 <PriceSection>
                     <label>
                         Price(Kshs.)
-                        <input type="number" {...register("price")} />
+                        <input type="number"  {...register("price")} />
                     </label>
                     <label>
                         Quantity

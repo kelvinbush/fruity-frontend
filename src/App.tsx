@@ -3,15 +3,24 @@ import Home from "./Home/Home";
 import {GlobalStyle} from "./GlobalStyle";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Login from "./Login/Login";
-import {PreviewProduct, ProductAction, ProductEdit, reducer, TokenAction, TokenState} from "./reducer/reducer";
+import {
+    ActionSetProducts,
+    CategoryAction,
+    PreviewProduct,
+    ProductAction,
+    ProductEdit,
+    reducer,
+    TokenAction,
+    TokenState
+} from "./reducer/reducer";
 
-type DispatchFunction = (a: TokenAction | ProductAction | ProductEdit) => void;
+type DispatchFunction = (a: TokenAction | ProductAction | ProductEdit | CategoryAction | ActionSetProducts) => void;
 type DefaultContext = {
     tokenState: TokenState;
     tokenDispatch: DispatchFunction;
 };
 export const AuthTokenContext = React.createContext({} as DefaultContext);
-const initial: TokenState = {token: "", product: {} as PreviewProduct, isEdit: false};
+const initial: TokenState = {token: "", product: {} as PreviewProduct, isEdit: false, category: [], products: []};
 const App = () => {
     const [token, dispatch] = useReducer(reducer, initial);
     return (

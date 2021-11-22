@@ -17,10 +17,11 @@ const Home = () => {
     useEffect(() => {
         console.log(isEdit);
     }, [isEdit]);
+    console.log(state + "home");
     return (
         <Wrapper>
             <NavBar/>
-            <MainContent products={state.products} error={error} loading={loading}/>
+            <MainContent error={error} loading={loading}/>
             {isEdit ? <PreviewItem/> : <AddItem/>}
         </Wrapper>
     );

@@ -2,6 +2,7 @@ import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {newItemEndpoint} from "../API";
 import {AuthTokenContext} from "../App";
+import {AuthState} from "../reducer/reducer";
 
 export type Category = {
     id: string,
@@ -24,12 +25,8 @@ export type Product = {
 }
 
 
-const initialState = {
-    products: [] as Product[]
-}
-
 export const useHomeFetch = () => {
-    const [state, setState] = useState(initialState);
+    const [state, setState] = useState("")
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const context = useContext(AuthTokenContext);
@@ -44,14 +41,17 @@ export const useHomeFetch = () => {
             try {
                 setError(false);
                 setLoading(true);
+
                 const result = await axios.get(newItemEndpoint, {
                     headers: {Authorization: `Bearer ${token}`},
                     withCredentials: true,
                 });
-                setState(() => ({
-                    ...result,
-                    products: [...result.data.result]
-                }))
+                const products = [...result.data.result]
+                const categories = products.map(product => (product.category.name));
+                const mCategory = new Set(categories);
+                const data = Array.from(mCategory);
+                context.tokenDispatch({type: AuthState.SET_CATEGORIES, payload: data})
+                context.tokenDispatch({type: AuthState.SET_PRODUCTS, payload: [...result.data.result]})
             } catch (e: any) {
                 setError(true);
                 console.log(e.message);

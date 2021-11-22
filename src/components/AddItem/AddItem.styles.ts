@@ -185,6 +185,7 @@ export const SelectTag = styled.select`
   box-sizing: border-box;
   border-radius: 12px;
   background-color: inherit;
+  
 
   option {
     font-style: normal;

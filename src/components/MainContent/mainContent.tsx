@@ -7,13 +7,14 @@ import {Product, useHomeFetch} from "../../hooks/useHomeFetch";
 import Spinner from "../Spinner";
 
 type Props = {
-    products: Product[]
-    error:boolean,
-    loading:boolean,
+    error: boolean,
+    loading: boolean,
 
 };
 
-const MainContent:React.FC<Props> = ({products, error,loading}) => {
+const MainContent: React.FC<Props> = ({error, loading}) => {
+        const context = useContext(AuthTokenContext);
+        const products = context.tokenState.products
 
         if (error) return <div>Something went wrong ...</div>;
         return (<Wrapper>
