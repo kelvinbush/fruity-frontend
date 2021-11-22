@@ -87,7 +87,7 @@ function AddItem(props: Props) {
                 imageUrl,
             };
             await postNewItem(data, context.tokenState.token);
-            reset({});
+            reset({name: "", description: "", quantity: "", category: "", price: ""});
         } catch (e: any) {
             console.log(e.message);
         }

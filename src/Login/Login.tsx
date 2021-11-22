@@ -18,6 +18,7 @@ function Login(props: Props) {
       const token = await result.user.getIdToken(true);
       if (token) {
         context.tokenDispatch({ type: AuthState.LOGIN, payload: token });
+        console.log(token)
         navigate("/admin");
       }
     } catch (err) {

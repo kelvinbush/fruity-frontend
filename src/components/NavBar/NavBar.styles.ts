@@ -27,6 +27,10 @@ export const NavIcons = styled.div`
 
   img {
     align-self: center;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 export const AccountImg = styled.img`
