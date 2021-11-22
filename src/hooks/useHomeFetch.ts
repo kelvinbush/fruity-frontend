@@ -33,10 +33,13 @@ export const useHomeFetch = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const context = useContext(AuthTokenContext);
-    const token =  context.tokenState.token
+    const token = context.tokenState.token
 
     useEffect(() => {
-        if (token.trim().length <= 0) return;
+        if (token.trim().length <= 0) {
+            setError(true)
+            return;
+        }
         const fetchProducts = async () => {
             try {
                 setError(false);
@@ -45,7 +48,6 @@ export const useHomeFetch = () => {
                     headers: {Authorization: `Bearer ${token}`},
                     withCredentials: true,
                 });
-                console.log(result.data)
                 setState(() => ({
                     ...result,
                     products: [...result.data.result]

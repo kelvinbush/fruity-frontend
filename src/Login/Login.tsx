@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { AuthTokenContext } from "../App";
-import { AuthState } from "../reducer/reuducer";
+import { AuthState } from "../reducer/reducer";
 
 type Props = {};
 
@@ -18,7 +18,6 @@ function Login(props: Props) {
       const token = await result.user.getIdToken(true);
       if (token) {
         context.tokenDispatch({ type: AuthState.LOGIN, payload: token });
-        console.log(token)
         navigate("/admin");
       }
     } catch (err) {

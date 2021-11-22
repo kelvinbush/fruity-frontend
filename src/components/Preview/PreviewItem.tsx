@@ -1,43 +1,44 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 import {
-    Wrapper,
-    Title,
+    CategoryText,
     DescText,
+    EditImg,
     NameText,
     PriceCategoryWrapper,
-    CategoryText,
     ProductImg,
-    EditImg
+    Title,
+    Wrapper
 } from "./Preview.styles";
 import EditIcon from "../../images/edit.svg";
-// @ts-ignore
-import PepperImage from "../../images/pepper.png";
+import {AuthState} from "../../reducer/reducer";
+import {AuthTokenContext} from "../../App";
 
-type Props = {};
-const PreviewItem = (props: Props) => {
+const PreviewItem: React.FC = () => {
+    const context = useContext(AuthTokenContext);
+    const product = context.tokenState.product
+
     return (
         <Wrapper>
-            <EditImg src={EditIcon}/>
-            <ProductImg src={PepperImage}/>
+            <EditImg src={EditIcon}
+                     onClick={() => context.tokenDispatch({type: AuthState.EDIT_ITEM, payload: false})}/>
+            <ProductImg src={product.imageUrl}/>
             <Title>{"Name"}</Title>
-            <NameText>{"Pepper"}</NameText>
+            <NameText>{product.name}</NameText>
             <Title>{"Category"}</Title>
-            <CategoryText>{"Fruits and Vegetables"}</CategoryText>
+            <CategoryText>{product.category}</CategoryText>
             <PriceCategoryWrapper>
                 <div>
                     <Title>{"Price(Kshs.)"}</Title>
-                    <CategoryText>{"55.40"}</CategoryText>
+                    <CategoryText>{product.price}</CategoryText>
                 </div>
                 <div>
                     <Title>{"Quantity left:"}</Title>
-                    <CategoryText>{"12"}</CategoryText>
+                    <CategoryText>{product.quantity}</CategoryText>
                 </div>
             </PriceCategoryWrapper>
             <Title>{"Description"}</Title>
-            <DescText>Nutrient-dense foods are those that provide substantial amounts of vitamins, minerals and other
-                nutrients with relatively few calories. One-third of a medium avocado (50 g) has 80 calories and
-                contributes nearly 20 vitamins and minerals, making it a great nutrient-dense food choice.</DescText>
+            <DescText>{product.description}</DescText>
         </Wrapper>
     );
 };

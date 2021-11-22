@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {Wrapper} from "./Home.styles";
 import NavBar from "../components/NavBar/navBar";
 import MainContent from "../components/MainContent/mainContent";
@@ -11,11 +11,17 @@ import AddItem from "../components/AddItem/AddItem";
 
 const Home = () => {
     const {state, error, loading} = useHomeFetch();
+    const context = useContext(AuthTokenContext);
+    const isEdit = context.tokenState.isEdit
+
+    useEffect(() => {
+        console.log(isEdit);
+    }, [isEdit]);
     return (
         <Wrapper>
             <NavBar/>
             <MainContent products={state.products} error={error} loading={loading}/>
-            <AddItem/>
+            {isEdit ? <PreviewItem/> : <AddItem/>}
         </Wrapper>
     );
 };

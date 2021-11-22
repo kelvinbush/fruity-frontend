@@ -28,6 +28,10 @@ export const ProductItem = styled.div`
   display: flex;
   justify-content: space-between;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   p {
     display: inline-block;
     padding: 10px;

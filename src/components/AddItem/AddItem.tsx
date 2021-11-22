@@ -94,7 +94,6 @@ function AddItem(props: Props) {
     };
 
     const buttonText = !toggle ? "new" : "select";
-    console.log(errors);
     return (
         <Wrapper>
             <Content>
