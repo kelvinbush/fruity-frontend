@@ -33,6 +33,10 @@ export const Wrapper = styled.section`
     color: #34333a;
     outline: none;
     border: none;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   #save {
@@ -41,6 +45,10 @@ export const Wrapper = styled.section`
     color: white;
     outline: none;
     border: none;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -145,31 +153,40 @@ export const CategoryWrapper = styled.div`
   button {
     flex-basis: 25%;
     color: #34333a;
-    outline: none;
     border-radius: 12px;
-    border-color: #fafafe;
     font-style: normal;
     font-weight: bold;
     font-size: 16px;
     line-height: 20px;
-    padding: 16px;
-  }
-
-  input {
-    display: block;
-    border: 2px solid #bdbdbd;
-    box-sizing: border-box;
-    border-radius: 12px;
-    height: 50px;
-    width: 100%;
-    background-color: #fafafe;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
-    padding-left: 8px;
-    color: #000000;
     outline: none;
+    border: none;
+    padding: 12px;
+    background-color: #bdbdbd;
+
+    &:hover {
+      cursor: pointer;
+      background-color: lightgreen;
+      color: white;
+    }
+  }
+}
+
+input {
+  display: block;
+  border: 2px solid #bdbdbd;
+  box-sizing: border-box;
+  border-radius: 12px;
+  height: 50px;
+  width: 100%;
+  background-color: #fafafe;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  padding-left: 8px;
+  color: #000000;
+  outline: none;
+  flex-basis: 65%;
 `;
 
 export const SelectTag = styled.select`
@@ -185,7 +202,7 @@ export const SelectTag = styled.select`
   box-sizing: border-box;
   border-radius: 12px;
   background-color: inherit;
-  
+
 
   option {
     font-style: normal;
