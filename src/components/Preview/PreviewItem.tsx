@@ -8,9 +8,10 @@ import {
     PriceCategoryWrapper,
     ProductImg,
     Title,
-    Wrapper
+    Wrapper, DeleteImg
 } from "./Preview.styles";
 import EditIcon from "../../images/edit.svg";
+import DeleteIcon from "../../images/delete.svg";
 import {AuthState} from "../../reducer/reducer";
 import {AuthTokenContext} from "../../App";
 
@@ -22,6 +23,7 @@ const PreviewItem: React.FC = () => {
         <Wrapper>
             <EditImg src={EditIcon}
                      onClick={() => context.tokenDispatch({type: AuthState.EDIT_ITEM, payload: false})}/>
+            <DeleteImg src={DeleteIcon}/>
             <ProductImg src={product.imageUrl}/>
             <Title>{"Name"}</Title>
             <NameText>{product.name}</NameText>

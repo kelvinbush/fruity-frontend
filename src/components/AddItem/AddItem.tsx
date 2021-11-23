@@ -27,9 +27,7 @@ const createNewItemInputSchema = object({
     description: string().nonempty({
         message: "description is required",
     }),
-    category: string().nonempty({
-        message: "category is required",
-    }),
+    category: string(),
     my_category: string(),
     price: string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
         message: "Expected number, received a string",
@@ -53,6 +51,7 @@ const AddItem: React.FC<Props> = ({setState}) => {
     let product = context.tokenState.product;
     const edit = context.tokenState.isEdit
     let defaultField;
+    const categories = context.tokenState.category
     if (product.name !== undefined) {
         defaultField = {
             name: product.name,
@@ -68,9 +67,9 @@ const AddItem: React.FC<Props> = ({setState}) => {
             name: "",
             description: "",
             price: "",
-            category: "",
+            category: categories[0] !== undefined ? categories[0] : "No category",
             quantity: "",
-            my_category: ""
+            my_category: "",
         }
     }
 
@@ -83,7 +82,6 @@ const AddItem: React.FC<Props> = ({setState}) => {
         resolver: zodResolver(createNewItemInputSchema),
         defaultValues: defaultField
     });
-    const categories = context.tokenState.category
 
     const selectCategory = (
         <SelectTag>
@@ -133,7 +131,7 @@ const AddItem: React.FC<Props> = ({setState}) => {
             setLoading(false)
         }
     };
-
+    console.log(edit);
     const buttonText = !toggle ? "new" : "select";
     return (
         <Wrapper>

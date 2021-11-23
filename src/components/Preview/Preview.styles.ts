@@ -14,7 +14,16 @@ export const Wrapper = styled.div`
 `
 
 export const EditImg = styled.img`
-  display: block;
+  display: inline-block;
+
+  &:hover {
+    cursor: pointer;
+  }
+`
+export const DeleteImg = styled.img`
+  display: inline-block;
+  float: right;
+  padding-top: 14px;
 
   &:hover {
     cursor: pointer;
