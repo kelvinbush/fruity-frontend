@@ -12,12 +12,13 @@ import {
 import {ref, uploadBytes, getDownloadURL, getStorage} from "firebase/storage";
 import {AuthTokenContext} from "../../App";
 import {useForm} from "react-hook-form";
-// @ts-ignore
 import {zodResolver} from "@hookform/resolvers/zod";
-import {number, object, string, TypeOf} from "zod";
+import {object, string, TypeOf} from "zod";
 import {NewProduct, postNewItem} from "../../API";
+import Spinner from "../Spinner";
+import {useHomeFetch} from "../../hooks/useHomeFetch";
+import {AuthState} from "../../reducer/reducer";
 
-type Props = {};
 
 const createNewItemInputSchema = object({
     name: string().nonempty({
@@ -29,6 +30,7 @@ const createNewItemInputSchema = object({
     category: string().nonempty({
         message: "category is required",
     }),
+    my_category: string(),
     price: string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
         message: "Expected number, received a string",
     }),
@@ -38,11 +40,18 @@ const createNewItemInputSchema = object({
 });
 type CreateNewItemInput = TypeOf<typeof createNewItemInputSchema>;
 
-function AddItem(props: Props) {
+type Props = {
+    setState: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const AddItem: React.FC<Props> = ({setState}) => {
     const [toggle, setToggle] = useState(false);
     const [file, setFile] = useState<File>();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
     const context = useContext(AuthTokenContext);
     let product = context.tokenState.product;
+    const edit = context.tokenState.isEdit
     let defaultField;
     if (product.name !== undefined) {
         defaultField = {
@@ -50,7 +59,9 @@ function AddItem(props: Props) {
             description: product.description,
             price: product.price.toString(),
             category: product.category,
-            quantity: product.quantity.toString()
+            quantity: product.quantity.toString(),
+            my_category: ""
+
         }
     } else {
         defaultField = {
@@ -59,13 +70,9 @@ function AddItem(props: Props) {
             price: "",
             category: "",
             quantity: "",
+            my_category: ""
         }
     }
-    useEffect(() => {
-        if (product.name !== undefined) {
-            setToggle(true);
-        }
-    }, [])
 
     const {
         register,
@@ -97,23 +104,33 @@ function AddItem(props: Props) {
                 console.log(e.message);
                 return "";
             }
+        } else if (product.name !== undefined) {
+            return product.imageUrl;
         }
+        return "";
     };
 
     const onSubmit = async (input: CreateNewItemInput) => {
+        setLoading(true);
         try {
             const imageUrl = await uploadImage();
             const data: NewProduct = {
+                id: product.name !== undefined ? product.id : "",
+                inventory: product.name !== undefined ? product.inventoryId : "",
                 name: input.name,
                 description: input.description,
                 price: Number(input.price),
                 quantity: Number(input.quantity),
-                category: input.category,
+                category: input.my_category.trim().length > 0 ? input.my_category.trim() : input.category,
                 imageUrl,
             };
-            await postNewItem(data, context.tokenState.token);
+            await postNewItem(data, context.tokenState.token, edit);
+            setLoading(false)
+            setState((prevState => !prevState))
+            reset({category: "", price: "", description: "", quantity: "", name: ""})
         } catch (e: any) {
             console.log(e.message);
+            setLoading(false)
         }
     };
 
@@ -134,7 +151,7 @@ function AddItem(props: Props) {
                         <input
                             type="text"
                             placeholder={"Enter Category"}
-                            {...register("category")}
+                            {...register("my_category")}
                         />
                     )}
                     <button onClick={() => setToggle(!toggle)}>{buttonText}</button>
@@ -167,13 +184,24 @@ function AddItem(props: Props) {
                 </label>
             </Content>
             <div id="div-button">
-                <button id="cancel">cancel</button>
-                <button id="save" onClick={handleSubmit(onSubmit)}>
-                    Save
-                </button>
+                {loading
+                    ? <Spinner/>
+                    : <>
+                        <button id="cancel" onClick={() => {
+                            reset({category: "", price: "", description: "", quantity: "", name: ""})
+                            if (!edit) {
+                                context.tokenDispatch({type: AuthState.EDIT_ITEM, payload: true})
+                            }
+                        }
+                        }>cancel
+                        </button>
+                        <button id="save" onClick={handleSubmit(onSubmit)}>
+                            Save
+                        </button>
+                    </>}
             </div>
         </Wrapper>
     );
-}
+};
 
 export default AddItem;

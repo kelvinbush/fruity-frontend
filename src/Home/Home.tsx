@@ -10,19 +10,18 @@ import AddItem from "../components/AddItem/AddItem";
 
 
 const Home = () => {
-    const {state, error, loading} = useHomeFetch();
+    const {error, loading, setState} = useHomeFetch();
     const context = useContext(AuthTokenContext);
     const isEdit = context.tokenState.isEdit
 
     useEffect(() => {
         console.log(isEdit);
     }, [isEdit]);
-    console.log(state + "home");
     return (
         <Wrapper>
-            <NavBar/>
+            <NavBar setState={setState}/>
             <MainContent error={error} loading={loading}/>
-            {isEdit ? <PreviewItem/> : <AddItem/>}
+            {isEdit ? <PreviewItem/> : <AddItem setState={setState}/>}
         </Wrapper>
     );
 };

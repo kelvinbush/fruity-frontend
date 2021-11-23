@@ -29,7 +29,10 @@ export const NavIcons = styled.div`
     align-self: center;
 
     &:hover {
+      border: solid #f9a109 2px;
+      border-radius: 40%;
       cursor: pointer;
+      color: var(--medOrange);
     }
   }
 `;

@@ -26,7 +26,7 @@ export type Product = {
 
 
 export const useHomeFetch = () => {
-    const [state, setState] = useState("")
+    const [state, setState] = useState(false)
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const context = useContext(AuthTokenContext);
@@ -59,8 +59,8 @@ export const useHomeFetch = () => {
             setLoading(false);
         }
         fetchProducts();
-    }, [token])
+    }, [token, state])
 
-    return {state, loading, error, token};
+    return {state, loading, error, token, setState};
 }
 

@@ -7,17 +7,25 @@ import ListImg from "../../images/list.svg";
 import RefreshImg from "../../images/replay.svg";
 import ChartImg from "../../images/analytics.svg";
 import {AuthTokenContext} from "../../App";
+import {AuthState, PreviewProduct} from "../../reducer/reducer";
 
+type Props = {
+    setState: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-const NavBar: React.FC = () => {
+const NavBar: React.FC<Props> = ({setState}) => {
     const context = useContext(AuthTokenContext);
-    const token = context.tokenState.token;
+
     return (
         <Wrapper>
             <LogoImg src={Logo} alt={"logo"}/>
             <NavIcons>
-                <img src={ListImg} alt="list"/>
-                <img src={RefreshImg} alt="refresh"/>
+                <img src={ListImg} alt="list"
+                     onClick={() => {
+                         context.tokenDispatch({type: AuthState.PREVIEW_ITEM, payload: {} as PreviewProduct})
+                         context.tokenDispatch({type: AuthState.EDIT_ITEM, payload: false})
+                     }}/>
+                <img src={RefreshImg} alt="refresh" onClick={() => setState((prevState => !prevState))}/>
                 <img src={ChartImg} alt="trends"/>
             </NavIcons>
             <AccountImg src={PersonImg} alt={"account"}/>
