@@ -20,7 +20,24 @@ type DefaultContext = {
     tokenDispatch: DispatchFunction;
 };
 export const AuthTokenContext = React.createContext({} as DefaultContext);
-const initial: TokenState = {token: "", product: {} as PreviewProduct, isEdit: false, category: [], products: []};
+export const emptyProduct: PreviewProduct = {
+    name: "",
+    price: "",
+    category: "",
+    description: "",
+    quantity: "",
+    categoryId: "",
+    inventoryId: "",
+    imageUrl: "",
+    id: ""
+}
+const initial: TokenState = {
+    token: "",
+    product: emptyProduct,
+    isEdit: false,
+    category: [""],
+    products: []
+};
 const App = () => {
     const [token, dispatch] = useReducer(reducer, initial);
     return (

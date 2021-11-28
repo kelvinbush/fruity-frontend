@@ -50,6 +50,7 @@ export const useHomeFetch = () => {
                 const categories = products.map(product => (product.category.name));
                 const mCategory = new Set(categories);
                 const data = Array.from(mCategory);
+                console.log(data);
                 context.tokenDispatch({type: AuthState.SET_CATEGORIES, payload: data})
                 context.tokenDispatch({type: AuthState.SET_PRODUCTS, payload: [...result.data.result]})
             } catch (e: any) {

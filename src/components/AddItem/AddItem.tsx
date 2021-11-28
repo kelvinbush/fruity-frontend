@@ -52,14 +52,14 @@ const AddItem: React.FC<Props> = ({setState}) => {
     const edit = context.tokenState.isEdit
     let defaultField;
     const categories = context.tokenState.category
-    if (product.name !== undefined) {
+    if (product.name.length > 0) {
         defaultField = {
             name: product.name,
             description: product.description,
             price: product.price.toString(),
             category: product.category,
             quantity: product.quantity.toString(),
-            my_category: ""
+            my_category: product.category
 
         }
     } else {
@@ -67,9 +67,9 @@ const AddItem: React.FC<Props> = ({setState}) => {
             name: "",
             description: "",
             price: "",
-            category: categories[0] !== undefined ? categories[0] : "No category",
+            category: categories !== undefined ? categories[0] : "No category",
             quantity: "",
-            my_category: "",
+            my_category: "empty",
         }
     }
 
@@ -102,24 +102,25 @@ const AddItem: React.FC<Props> = ({setState}) => {
                 console.log(e.message);
                 return "";
             }
-        } else if (product.name !== undefined) {
+        } else if (product.name.length > 0) {
             return product.imageUrl;
         }
         return "";
     };
 
     const onSubmit = async (input: CreateNewItemInput) => {
+        console.log(input);
         setLoading(true);
         try {
             const imageUrl = await uploadImage();
             const data: NewProduct = {
-                id: product.name !== undefined ? product.id : "",
-                inventory: product.name !== undefined ? product.inventoryId : "",
+                id: product.name.length > 0 ? product.id : "",
+                inventory: product.name.length > 0 ? product.inventoryId : "",
                 name: input.name,
                 description: input.description,
                 price: Number(input.price),
                 quantity: Number(input.quantity),
-                category: input.my_category.trim().length > 0 ? input.my_category.trim() : input.category,
+                category: input.my_category.trim().length > 0 && input.my_category !== "empty" ? input.my_category.trim() : input.category,
                 imageUrl,
             };
             await postNewItem(data, context.tokenState.token, edit);
@@ -127,11 +128,12 @@ const AddItem: React.FC<Props> = ({setState}) => {
             setState((prevState => !prevState))
             reset({category: "", price: "", description: "", quantity: "", name: ""})
         } catch (e: any) {
-            console.log(e.message);
+            console.log(e);
             setLoading(false)
         }
     };
-    console.log(edit);
+    console.log(errors);
+
     const buttonText = !toggle ? "new" : "select";
     return (
         <Wrapper>
