@@ -7,6 +7,7 @@ import {AuthTokenContext} from "../App";
 import PreviewItem from "../components/Preview/PreviewItem";
 import {useHomeFetch} from "../hooks/useHomeFetch";
 import AddItem from "../components/AddItem/AddItem";
+import Analysis from "../components/Analysis/Analysis";
 
 
 const Home = () => {
@@ -20,7 +21,8 @@ const Home = () => {
     return (
         <Wrapper>
             <NavBar setState={setState}/>
-            <MainContent error={error} loading={loading}/>
+            {/*<MainContent error={error} loading={loading}/>*/}
+            <Analysis/>
             {isEdit ? <PreviewItem/> : <AddItem setState={setState}/>}
         </Wrapper>
     );
