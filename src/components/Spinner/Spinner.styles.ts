@@ -4,10 +4,10 @@ export const Spinner = styled.div`
   border: 5px solid #f7cf88;
   border-top: 5px solid var(--medOrange);
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   animation: spin 0.8s linear infinite;
-  margin: 20px auto;
+  margin: 18px auto;
 
   @keyframes spin {
     0% {

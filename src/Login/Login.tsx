@@ -23,12 +23,15 @@ function Login(props: Props) {
 					type: AuthState.LOGIN,
 					payload: token,
 				});
+				const result = await axios.get(`http://localhost:1446/api/me`, {
+					headers: { Authorization: `Bearer ${token}` },
+				});
 				console.log("====================================");
 				console.log(token);
 				console.log("====================================");
-				await axios.get(`http://localhost:1446/api/me`, {
-					headers: { Authorization: `Bearer ${token}` },
-				});
+				console.log("====================================");
+				console.log(result.data);
+				console.log("====================================");
 				navigate("/admin");
 			}
 		} catch (err) {

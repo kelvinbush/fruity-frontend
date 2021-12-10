@@ -21,8 +21,8 @@ const Home = () => {
     return (
         <Wrapper>
             <NavBar setState={setState}/>
-            {/*<MainContent error={error} loading={loading}/>*/}
-            <Analysis/>
+            <MainContent error={error} loading={loading}/>
+            {/*<Analysis/>*/}
             {isEdit ? <PreviewItem/> : <AddItem setState={setState}/>}
         </Wrapper>
     );
