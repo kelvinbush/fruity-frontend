@@ -4,7 +4,6 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { AuthTokenContext } from "../App";
 import { AuthState } from "../reducer/reducer";
 import axios from "axios";
-import { newItemEndpoint } from "../API";
 
 type Props = {};
 
@@ -23,22 +22,22 @@ function Login(props: Props) {
 					type: AuthState.LOGIN,
 					payload: token,
 				});
+				console.log("====================================");
+				console.log(token);
+				console.log("====================================");
 				const result = await axios.get(
-					`https://nectar-server-api.herokuapp.com/api/me`,
+					`https://nectar-api-server.herokuapp.com/api/me`,
 					{
 						headers: { Authorization: `Bearer ${token}` },
 					}
 				);
 				console.log("====================================");
-				console.log(token);
-				console.log("====================================");
-				console.log("====================================");
 				console.log(result.data);
 				console.log("====================================");
 				navigate("/admin");
 			}
-		} catch (err) {
-			console.log(err);
+		} catch (err: any) {
+			console.log(err.message);
 		}
 	}
 

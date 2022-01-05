@@ -142,7 +142,7 @@ const AddItem: React.FC<Props> = ({ setState }) => {
 				name: "",
 			});
 		} catch (e: any) {
-			console.log(e);
+			console.log(e.message);
 			setLoading(false);
 		}
 	};
